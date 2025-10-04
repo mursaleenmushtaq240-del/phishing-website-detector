@@ -1,3 +1,5 @@
+# Phishing Website Detector
+A simple Python tool that detects possible phishing websites.
 [8:09 pm, 04/10/2025] Mursaleen mushtaq: from urllib.parse import urlparse
 
 def phishing_detector(url):
