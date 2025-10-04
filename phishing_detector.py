@@ -1,33 +1,101 @@
+#!/usr/bin/env python3
+"""
+phishing_detector.py
+Simple heuristic-based phishing URL checker (no external libraries).
+Usage:
+    python phishing_detector.py https://example.com
+Or run without args to enter URLs interactively.
+"""
+
 from urllib.parse import urlparse
+import argparse
+import sys
 
-def phishing_detector(url):
-    suspicious_words = ['login', 'verify', 'update', 'free', 'bonus', 'win', 'secure', 'bank', 'account']
-    parsed = urlparse(url)
-    domain = parsed.netloc
+SUSPICIOUS_WORDS = [
+    "login", "verify", "update", "secure", "account", "bank",
+    "confirm", "password", "signin", "reset", "activate", "free",
+    "bonus", "win"
+]
 
-    # Checks
-    has_https = url.startswith("https")
-    contains_at = '@' in url
-    contains_dash = '-' in domain
-    long_domain = len(domain) > 25
-    suspicious_word = any(word in url.lower() for word in suspicious_words)
+def score_url(url: str) -> int:
+    """Return a heuristic score. Higher = more suspicious."""
+    url_lower = url.lower()
+    parsed = urlparse(url_lower)
+    domain = parsed.netloc or parsed.path  # fallback if schema missing
 
-    # Score system
     score = 0
-    if not has_https: score += 1
-    if contains_at: score += 1
-    if contains_dash: score += 1
-    if long_domain: score += 1
-    if suspicious_word: score += 1
 
-    print("\nAnalyzing:", url)
-    if score >= 3:
-        print("⚠️ This website looks Suspicious (Possible Phishing).")
-    elif score == 2:
-        print("⚠️ This website might be risky, check carefully.")
+    # 1. Missing HTTPS
+    if not url_lower.startswith("https://"):
+        score += 1
+
+    # 2. Contains '@' (often used in phishing traps)
+    if "@" in url_lower:
+        score += 1
+
+    # 3. Dash in domain (hyphenated domains sometimes suspicious)
+    if "-" in domain:
+        score += 1
+
+    # 4. Long domain (very long domains are suspicious)
+    if len(domain) > 25:
+        score += 1
+
+    # 5. IP address used instead of domain
+    parts = domain.split('.')
+    if all(p.isdigit() for p in parts if p):
+        score += 1
+
+    # 6. Suspicious keywords in URL path or query
+    if any(word in url_lower for word in SUSPICIOUS_WORDS):
+        score += 1
+
+    # 7. Many subdomains (like random-sub.example.co.uk)
+    if domain.count('.') >= 4:
+        score += 1
+
+    return score
+
+def verdict_from_score(score: int) -> str:
+    if score >= 4:
+        return "Suspicious (possible phishing)"
+    if score == 3:
+        return "Risky — check carefully"
+    return "Likely safe"
+
+def analyze(url: str) -> None:
+    sc = score_url(url)
+    v = verdict_from_score(sc)
+    print(f"\nURL: {url}")
+    print(f"Score: {sc}")
+    print(f"Verdict: {v}")
+
+def interactive_loop():
+    print("Enter URL to analyze (empty line to quit):")
+    try:
+        while True:
+            url = input("> ").strip()
+            if not url:
+                break
+            # add scheme if omitted
+            if "://" not in url:
+                url = "http://" + url
+            analyze(url)
+    except (KeyboardInterrupt, EOFError):
+        print("\nExiting.")
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description="Simple phishing URL heuristic checker")
+    parser.add_argument("url", nargs="?", help="URL to check (optional). If omitted, runs interactive mode.")
+    args = parser.parse_args(argv)
+
+    if args.url:
+        url = args.url
+        if "://" not in url:
+            url = "http://" + url
+        analyze(url)
     else:
-        print("✅ This website looks Safe.")
+        interactive_loop()
 
-# Example run
-url_input = input("Enter a website URL: ")
-phishing_detector(url_input)
+if _name_ == "_main_":
+    main()
