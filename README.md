@@ -1,15 +1,36 @@
 # Phishing Website Detector
-A simple Python tool that detects possible phishing websites.
 
-## How it works
-This script analyzes a URL for common phishing indicators (missing HTTPS, presence of '@' in URL, hyphens in domain, unusually long domains, and suspicious words like "login", "verify", "free"). It scores the URL and prints whether it looks safe, risky, or suspicious.
+Developed by *Mursaleen Mushtaq*  
+Cybersecurity Student – Hamdard University, Karachi  
+GitHub: [mursaleenmushtaq240-del](https://github.com/mursaleenmushtaq240-del)
 
-## Requirements
-- Python 3.x
-- Uses only the Python standard library (urllib.parse)
+---
 
-## Installation
-Clone the repo:
-```bash
-git clone https://github.com/mursaleenmushtaq240-del/phishing-website-detector.git
-cd phishing-website-detector
+## 🧠 Project Overview
+This is a simple *Python-based phishing website detector*.  
+It checks a website link and tells whether it looks *Safe, Suspicious, or Risky* using basic URL analysis.
+
+The goal of this project is to understand how phishing links can be detected using simple rules without any external libraries.
+
+---
+
+## ⚙️ Features
+- 100% Python (no extra libraries required)  
+- Works completely offline  
+- Easy to use and understand  
+- Shows result with clear reason  
+- Great for learning cybersecurity basics  
+
+---
+
+## 🔍 How It Works
+The program checks the following:
+- Missing HTTPS  
+- Use of special symbols like @  
+- Suspicious words (like login, verify, secure, etc.)  
+- Very long or strange domain names  
+- Use of hyphens or numbers in the domain  
+
+Each point adds to a “risk score,” and finally, the program decides if the link is Safe, Suspicious, or Risky.
+
+*Example Output:*
