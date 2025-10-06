@@ -1,29 +1,44 @@
-# Phishing Website Detector
+# 🎯 Phishing Website Detector
 
-Developed by *Mursaleen Mushtaq*  
-Cybersecurity Student – Hamdard University, Karachi  
-GitHub: [mursaleenmushtaq240-del](https://github.com/mursaleenmushtaq240-del)
+Developed by *Mursaleen Mushtaq*
 
 ---
 
-## 🧠 Project Overview
-This is a simple *Python-based phishing website detector*.  
-It checks a website link and tells whether it looks *Safe, Suspicious, or Risky* using basic URL analysis.
+## 📘 Project Overview
+The *Phishing Website Detector* is a machine learning-based project designed to detect and classify phishing websites.  
+It analyzes various features of a website (like URL length, HTTPS status, domain age, and more) to predict whether the site is *legitimate or phishing*.
 
-The goal of this project is to understand how phishing links can be detected using simple rules without any external libraries.
-
----
-
-## ⚙️ Features
-- 100% Python (no extra libraries required)  
-- Works completely offline  
-- Easy to use and understand  
-- Shows result with clear reason  
-- Great for learning cybersecurity basics  
+This project demonstrates how machine learning can be used to improve *cybersecurity awareness* and help protect users from online scams.
 
 ---
 
-## 🔍 How It Works
+## 🚀 Features
+- Detects phishing websites using trained ML models  
+- Extracts and analyzes key website attributes  
+- Simple and user-friendly interface  
+- Demonstrates practical application of cybersecurity concepts  
+
+---
+
+## 🧠 Technologies Used
+- *Python*
+- *Scikit-learn*
+- *Pandas*
+- *NumPy*
+- *Flask*
+- *HTML, CSS*
+
+---
+
+## ⚙️ How It Works
+1. The user enters a website URL.  
+2. The system extracts several features (like presence of HTTPS, URL length, etc.).  
+3. The trained ML model analyzes the data.  
+4. The result is displayed as *“Phishing”* or *“Legitimate.”*
+
+---
+
+## 📂 Project Structure
 The program checks the following:
 - Missing HTTPS  
 - Use of special symbols like @  
